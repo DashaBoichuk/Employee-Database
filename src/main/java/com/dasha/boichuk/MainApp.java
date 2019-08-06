@@ -17,29 +17,20 @@ public class MainApp extends Application {
     public static void main(String[] args) throws Exception {
         launch(args);
 
-        //jdbc:sqlserver://localhost; databaseName=TestDB; integratedSecurity=true;
 
-        Connection connection = null;
+     /*   Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
         String connectionUrl = "jdbc:sqlserver://localhost:49672; databaseName=JCProject; integratedSecurity=true";
-        String resultString = null;
+        String resultString = null;*/
 
 
-   /*     try {
-            Class.forName("com.mysql.jdbc.Driver");
-            System.out.println("Driver loaded!");
-        } catch (ClassNotFoundException e) {
-            throw new IllegalStateException("Cannot find the driver in the classpath!", e);
-        }*/
-
+/*
         try {
-            // ...
-          //  Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-         //   Driver d = (Driver) Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+
             connection = DriverManager.getConnection(connectionUrl);
             statement = connection.createStatement();
-            String SQL = "SELECT TOP 2 * FROM Employee.FirstName";
+            String SQL = "SELECT TOP 2 * FROM Employee";
 
             resultSet = statement.executeQuery(SQL);
 
@@ -47,14 +38,14 @@ public class MainApp extends Application {
                 resultString = resultSet.getString("FirstName") + " " + resultSet.getString("SecondName");
 
                    }
-            // ...
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         finally {
             if (connection != null) try { connection.close();
             } catch(Exception e) {}
-        }
+        }*/
 
     }
 
