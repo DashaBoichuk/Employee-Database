@@ -27,7 +27,6 @@ public class DatabaseHandler extends Config{
 
     public String GetData() {
         String resultString = null;
-      //  Statement statement = connection.createStatement();
         try {
             Statement statement = DbConnection().createStatement();
             String SQL = "SELECT TOP 2 * FROM " + Consts.EMPLOYEE_TABLE;
@@ -35,9 +34,9 @@ public class DatabaseHandler extends Config{
             ResultSet resultSet = statement.executeQuery(SQL);
 
             while (resultSet.next()) {
-                resultString = resultSet.getString("FirstName") + " " + resultSet.getString("SecondName");
+                resultString = resultSet.getString(Consts.FIRST_NAME) + " " + resultSet.getString(Consts.LAST_NAME);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
