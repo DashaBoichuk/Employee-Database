@@ -1,6 +1,5 @@
 package com.dasha.boichuk.controller;
 
-import com.dasha.boichuk.MainApp;
 import com.dasha.boichuk.database.helper.DatabaseHandler;
 import com.dasha.boichuk.model.Employee;
 import javafx.collections.FXCollections;
@@ -12,9 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-import javax.xml.crypto.Data;
-import java.sql.*;
 
 public class MainController {
     @FXML
@@ -50,7 +46,7 @@ public class MainController {
     private TableColumn<Employee, String> departmentColumn;
 
     @FXML
-    private TableColumn<Employee, String> roomNumberColumn;
+    private TableColumn<Employee, Integer> roomNumberColumn;
 
     @FXML
     private TableColumn<Employee, String> officePhoneColumn;
@@ -74,27 +70,39 @@ public class MainController {
 
         initData();
 
-      idColumn.setCellValueFactory(new PropertyValueFactory<Employee, Integer>("id"));
+        idColumn.setCellValueFactory(new PropertyValueFactory<Employee, Integer>("id"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("firstName"));
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("lastName"));
-
+        patronymicColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("Patronymic"));
+        dateOfBirthColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("DateOfBirth"));
+        //position
+        //department
+        roomNumberColumn.setCellValueFactory(new PropertyValueFactory<Employee, Integer>("RoomNumber"));
+        officePhoneColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("OfficePhone"));
+        businessEmailColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("BusinessEmail"));
+        monthlySalaryColumn.setCellValueFactory(new PropertyValueFactory<Employee, Integer>("MonthlySalary"));
+        dateOfHiringColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("DateOfHiring"));
+        fieldForNotesColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("FieldForNotes"));
         tableEmployees.setItems(usersData);
 
 
     }
 
     private void initData() {
-        usersData.add(new Employee(1, "Dasha", "Boichuk"));
-        usersData.add(new Employee(2, "Anzhela", "Ilchuk"));
+     /*   usersData.add(new Employee(1, "Dasha", "Boichuk"));
+        usersData.add(new Employee(2, "Anzhela", "Ilchuk"));*/
+     DatabaseHandler databaseHandler = new DatabaseHandler();
+     usersData = databaseHandler.getData();
+
     }
     @FXML
     private void click(ActionEvent event)  {
         btn.setText("You've clicked!");
-
-        DatabaseHandler databaseHandler = new DatabaseHandler();
-        String string = databaseHandler.GetData();
+//DELETE
+       /* DatabaseHandler databaseHandler = new DatabaseHandler();
+        String string = databaseHandler.getData();
         btn.setText(string);
-
+*/
     }
 
 
