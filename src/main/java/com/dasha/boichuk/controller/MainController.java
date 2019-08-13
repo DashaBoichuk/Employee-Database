@@ -40,7 +40,7 @@ public class MainController {
     private TableColumn<Employee, String> dateOfBirthColumn;
 
     @FXML
-    private TableColumn<Employee, Integer> positionColumn;
+    private TableColumn<Employee, String> positionColumn;
 
     @FXML
     private TableColumn<Employee, String> departmentColumn;
@@ -75,8 +75,8 @@ public class MainController {
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("lastName"));
         patronymicColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("Patronymic"));
         dateOfBirthColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("DateOfBirth"));
-        //position
-        //department
+        positionColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("position"));
+        departmentColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("department"));
         roomNumberColumn.setCellValueFactory(new PropertyValueFactory<Employee, Integer>("RoomNumber"));
         officePhoneColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("OfficePhone"));
         businessEmailColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("BusinessEmail"));

@@ -34,11 +34,16 @@ public class DatabaseHandler extends Config {
     private ObservableList<Employee> data;
 
     public ObservableList<Employee> getData() {
-        String resultString = null;
+       // String resultString = null;
         data = FXCollections.observableArrayList();
         try {
             Statement statement = DbConnection().createStatement();
-            String SQL = "SELECT * FROM " + Consts.EMPLOYEE_TABLE;
+           // String SQL = "SELECT * FROM " + Consts.EMPLOYEE_TABLE;
+            String SQL = "SELECT Employee.ID, Employee.FirstName, Employee.LastName, Employee.Patronymic,Employee.DateOfBirth, Position.PositionName, " +
+                    "Department.DepartmentName, Employee.RoomNumber, Employee.OfficePhone, Employee.BusinessEmail, Employee.MonthlySalary, Employee.DateOfHiring, " +
+                    "Employee.FieldForNotes " +
+                    "FROM Employee, Position, Department " +
+                    "WHERE Employee.PositionID = Position.ID AND Employee.DepartmentID = Department.ID";
 
             ResultSet resultSet = statement.executeQuery(SQL);
 
@@ -50,15 +55,15 @@ public class DatabaseHandler extends Config {
                 em.setLastName(resultSet.getString("LastName"));
                 em.setPatronymic(resultSet.getString("Patronymic"));
                 em.setDateOfBirth(resultSet.getString("DateOfBirth"));
-          //      em.setPosition(resultSet.getInt("PositionID"));
-          //      em.setDepartment(resultSet.getInt("DepartmentID"));
+                em.setPosition(resultSet.getString("PositionName"));
+                em.setDepartment(resultSet.getString("DepartmentName"));
                 em.setRoomNumber(resultSet.getInt("RoomNumber"));
-                em.setBusinessEmail(resultSet.getString("OfficePhone"));
+                em.setOfficePhone(resultSet.getString("OfficePhone"));
+                em.setBusinessEmail(resultSet.getString("BusinessEmail"));
                 em.setMonthlySalary(resultSet.getInt("MonthlySalary"));
                 em.setDateOfHiring(resultSet.getString("DateOfHiring"));
                 em.setFieldForNotes(resultSet.getString("FieldForNotes"));
 
-                // ........
                 data.add(em);
             }
         } catch (SQLException e) {
