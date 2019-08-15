@@ -74,7 +74,31 @@ public class DatabaseHandler extends Config {
         return data;
     }
 
-    public void setAllDataToList() {
+    public ObservableList<Employee> addEmployeeToDB(Employee employee) {
+        try {
+            Statement statement = DbConnection().createStatement();
+            String SQL = "insert into Employee " +
+                    "values ('" + employee.getFirstName() + "', '" + employee.getLastName() + "', '" + employee.getPatronymic() + "', '"+ employee.getDateOfBirth() + "', 1, 1, " + employee.getRoomNumber() + ", '" + employee.getOfficePhone() + "', '"+ employee.getBusinessEmail() + "', " + employee.getMonthlySalary() + ", '" + employee.getDateOfHiring() + "','" + employee.getFieldForNotes() + "');";
+            ResultSet resultSet = statement.executeQuery(SQL);
 
+
+        } catch (SQLException e) {
+
+        }
+        return getData();
+    }
+
+
+
+    public void deleteEmployee(int id) {
+        Statement statement = null;
+        try {
+            statement = DbConnection().createStatement();
+            String SQL = "delete from Employee " +
+                    "Employee.ID == " + id;
+            ResultSet resultSet = statement.executeQuery(SQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
