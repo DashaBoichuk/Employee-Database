@@ -2,6 +2,8 @@ package com.dasha.boichuk.controller;
 
 import com.dasha.boichuk.database.helper.DatabaseHandler;
 import com.dasha.boichuk.model.Employee;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -87,7 +90,9 @@ public class MainController {
     @FXML
     private TableColumn<Employee, String> fieldForNotesColumn;
 
-
+    public void setItemstoTable (ObservableList<Employee> usersData) {
+        tableEmployees.setItems(usersData);
+    }
 
 
 
@@ -98,7 +103,8 @@ public class MainController {
      //   initData();
         setDatatoTable();
 
-        tableEmployees.setItems(usersData);
+        setItemstoTable (usersData);
+
 
         addButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
@@ -109,15 +115,30 @@ public class MainController {
                 String fxmlFile = "/fxml/addEmp.fxml";
                 FXMLLoader loader = new FXMLLoader();
                 Parent root = null;
+                Stage primaryStage = new Stage();
                 try {
-                    Stage primaryStage = new Stage();
                     root = (Parent) loader.load(getClass().getResourceAsStream(fxmlFile));
-                    primaryStage.setTitle("Java Core Project");
-                    primaryStage.setScene(new Scene(root));
-                    primaryStage.show();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+
+
+                AddEmpController addEmpController = loader.getController();
+                addEmpController.setEmployeeSelectCallback(employee -> {
+                   databaseHandler.addEmployeeToDB(employee);
+                   usersData = databaseHandler.getData();
+                   tableEmployees.setItems(usersData);
+                });
+
+                Scene scene = new Scene(root);
+                primaryStage.initModality(Modality.APPLICATION_MODAL);
+                primaryStage.initOwner(root.getScene().getWindow());
+                primaryStage.setScene(scene);
+                primaryStage.resizableProperty().setValue(false);
+                primaryStage.setTitle("Додавання нового працівника");
+                primaryStage.showAndWait();
+
 
 
               /*  Employee employee = new Employee();
