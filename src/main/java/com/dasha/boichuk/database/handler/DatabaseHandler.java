@@ -87,18 +87,19 @@ public class DatabaseHandler extends Config {
         return getData();
     }
 
-    public ObservableList<Employee> updateEmployee (Employee employee) {
+    public ObservableList<Employee> updateEmployee (Employee employee, int id) {
         try {
 
             Statement statement = DbConnection().createStatement();
             String SQL = "UPDATE " + Consts.EMPLOYEE_TABLE +
-                    " SET '" + Consts.FIRST_NAME + " = '" + employee.getFirstName() + "', " + Consts.LAST_NAME + " = '" + employee.getLastName() + "', " + Consts.PATRONYMIC + " = '" + employee.getFirstName() + "', " + Consts.DATE_OF_BIRTH + " = '" + employee.getDateOfBirth() + "', " +
+                    " SET " + Consts.FIRST_NAME + " = '" + employee.getFirstName() + "', " + Consts.LAST_NAME + " = '" + employee.getLastName() + "', " + Consts.PATRONYMIC + " = '" + employee.getFirstName() + "', " + Consts.DATE_OF_BIRTH + " = '" + employee.getDateOfBirth() + "', " +
                         Consts.POSITION + " = " + getPositionId(employee.getPosition()) + ", " + Consts.DEPARTMENT + " = " + getDepartmentId(employee.getDepartment()) + ", " + Consts.ROOM_NUMBER + " = " + employee.getRoomNumber() + ", " + Consts.OFFICE_PHONE + " = '" + employee.getOfficePhone() + "', " + Consts.BUSINESS_EMAIL + " = '" + employee.getBusinessEmail() + "', " +
-                        Consts.MONTLY_SALARY + " = " + employee.getMonthlySalary() + ", " + Consts.DATE_OF_HIRANG + " = '" + employee.getDateOfHiring() + "', " + Consts.FIELD_FOR_NOTES + " = '" + employee.getFieldForNotes() + "' WHERE ID = " + employee.getId();
+                        Consts.MONTLY_SALARY + " = " + employee.getMonthlySalary() + ", " + Consts.DATE_OF_HIRANG + " = '" + employee.getDateOfHiring() + "', " + Consts.FIELD_FOR_NOTES + " = '" + employee.getFieldForNotes() + "' WHERE ID = " + id;
                     statement.executeQuery(SQL);
         } catch (SQLException e) {
 
         }
+        ObservableList<Employee> testEmployee = getData();
         return getData();
     }
 

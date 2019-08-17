@@ -31,11 +31,6 @@ public class EditEmpController {
         ObservableList<String> departmentList = databaseHandler.getDepartments();
         departmentChoiseBox.setItems(departmentList);
 
-
-
-
-
-
         saveEditsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {

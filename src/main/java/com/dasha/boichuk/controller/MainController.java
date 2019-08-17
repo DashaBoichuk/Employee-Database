@@ -59,8 +59,6 @@ public class MainController {
 
         setItemstoTable (usersData);
 
-
-
         addButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -77,9 +75,8 @@ public class MainController {
 
                 AddEmpController addEmpController = loader.getController();
                 addEmpController.setEmployeeSelectCallback(employee -> {
-                   databaseHandler.addEmployeeToDB(employee);
-                   usersData = databaseHandler.getData();
-                   tableEmployees.setItems(usersData);
+                    usersData = databaseHandler.addEmployeeToDB(employee);
+                    tableEmployees.setItems(usersData);
                 });
 
                 Scene scene = new Scene(root);
@@ -95,34 +92,36 @@ public class MainController {
         editButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                String fxmlFile = "/fxml/editEmp.fxml";
-                FXMLLoader loader = new FXMLLoader();
-                Parent root = null;
-                Stage primaryStage = new Stage();
-                try {
-                    root = (Parent) loader.load(getClass().getResourceAsStream(fxmlFile));
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (tableEmployees.getSelectionModel().getSelectedItem() != null) {
+
+                    String fxmlFile = "/fxml/editEmp.fxml";
+                    FXMLLoader loader = new FXMLLoader();
+                    Parent root = null;
+                    Stage primaryStage = new Stage();
+                    try {
+                        root = (Parent) loader.load(getClass().getResourceAsStream(fxmlFile));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    EditEmpController editEmpController = loader.getController();
+                    editEmpController.setData(tableEmployees.getSelectionModel().getSelectedItem());
+
+
+                    editEmpController.setEmployeeSelectCallback(employee -> {
+                        usersData = databaseHandler.updateEmployee(employee, tableEmployees.getSelectionModel().getSelectedItem().getId());
+                        tableEmployees.setItems(usersData);
+                    });
+
+
+                    Scene scene = new Scene(root);
+                    primaryStage.initModality(Modality.APPLICATION_MODAL);
+                    primaryStage.initOwner(root.getScene().getWindow());
+                    primaryStage.setScene(scene);
+                    primaryStage.resizableProperty().setValue(false);
+                    primaryStage.setTitle("Редагування даних");
+                    primaryStage.showAndWait();
                 }
-
-              EditEmpController editEmpController = loader.getController();
-              editEmpController.setData(tableEmployees.getSelectionModel().getSelectedItem());
-
-
-                editEmpController.setEmployeeSelectCallback(employee -> {
-                    databaseHandler.updateEmployee(employee);
-                    usersData = databaseHandler.getData();
-                    tableEmployees.setItems(usersData);
-                });
-
-
-                Scene scene = new Scene(root);
-                primaryStage.initModality(Modality.APPLICATION_MODAL);
-                primaryStage.initOwner(root.getScene().getWindow());
-                primaryStage.setScene(scene);
-                primaryStage.resizableProperty().setValue(false);
-                primaryStage.setTitle("Редагування даних");
-                primaryStage.showAndWait();
             }
         });
 

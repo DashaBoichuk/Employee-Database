@@ -24,7 +24,7 @@ public class AddEmpController {
     }
 
     @FXML
-    private void initialize(Employee employee) {
+    private void initialize() {
 
 
         DatabaseHandler databaseHandler = new DatabaseHandler();
