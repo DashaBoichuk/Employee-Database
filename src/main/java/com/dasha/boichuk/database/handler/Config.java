@@ -1,4 +1,4 @@
-package com.dasha.boichuk.database.helper;
+package com.dasha.boichuk.database.handler;
 
 public class Config {
     protected String dbHost = "localhost";

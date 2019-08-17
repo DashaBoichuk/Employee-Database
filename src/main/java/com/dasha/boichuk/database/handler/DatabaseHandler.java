@@ -1,11 +1,10 @@
-package com.dasha.boichuk.database.helper;
+package com.dasha.boichuk.database.handler;
 
 import com.dasha.boichuk.model.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
-import java.util.*;
 
 public class DatabaseHandler extends Config {
     private Connection connection;
@@ -80,12 +79,39 @@ public class DatabaseHandler extends Config {
 
             Statement statement = DbConnection().createStatement();
             String SQL = "insert into Employee " +
-                    "values ('" + employee.getFirstName() + "', '" + employee.getLastName() + "', '" + employee.getPatronymic() + "', '"+ employee.getDateOfBirth() + "', " + getPositionId(employee.getPosition()) + ", 1, " + employee.getRoomNumber() + ", '" + employee.getOfficePhone() + "', '"+ employee.getBusinessEmail() + "', " + employee.getMonthlySalary() + ", '" + employee.getDateOfHiring() + "','" + employee.getFieldForNotes() + "');";
+                    "values ('" + employee.getFirstName() + "', '" + employee.getLastName() + "', '" + employee.getPatronymic() + "', '"+ employee.getDateOfBirth() + "', " + getPositionId(employee.getPosition()) + ", "+ getDepartmentId(employee.getDepartment()) + ", " + employee.getRoomNumber() + ", '" + employee.getOfficePhone() + "', '"+ employee.getBusinessEmail() + "', " + employee.getMonthlySalary() + ", '" + employee.getDateOfHiring() + "','" + employee.getFieldForNotes() + "');";
             statement.executeQuery(SQL);
         } catch (SQLException e) {
 
         }
         return getData();
+    }
+
+    public ObservableList<Employee> updateEmployee (Employee employee) {
+        try {
+
+            Statement statement = DbConnection().createStatement();
+            String SQL = "UPDATE " + Consts.EMPLOYEE_TABLE +
+                    " SET '" + Consts.FIRST_NAME + " = '" + employee.getFirstName() + "', " + Consts.LAST_NAME + " = '" + employee.getLastName() + "', " + Consts.PATRONYMIC + " = '" + employee.getFirstName() + "', " + Consts.DATE_OF_BIRTH + " = '" + employee.getDateOfBirth() + "', " +
+                        Consts.POSITION + " = " + getPositionId(employee.getPosition()) + ", " + Consts.DEPARTMENT + " = " + getDepartmentId(employee.getDepartment()) + ", " + Consts.ROOM_NUMBER + " = " + employee.getRoomNumber() + ", " + Consts.OFFICE_PHONE + " = '" + employee.getOfficePhone() + "', " + Consts.BUSINESS_EMAIL + " = '" + employee.getBusinessEmail() + "', " +
+                        Consts.MONTLY_SALARY + " = " + employee.getMonthlySalary() + ", " + Consts.DATE_OF_HIRANG + " = '" + employee.getDateOfHiring() + "', " + Consts.FIELD_FOR_NOTES + " = '" + employee.getFieldForNotes() + "' WHERE ID = " + employee.getId();
+                    statement.executeQuery(SQL);
+        } catch (SQLException e) {
+
+        }
+        return getData();
+    }
+
+    public void deleteEmployee(int id) {
+        Statement statement = null;
+        try {
+            statement = DbConnection().createStatement();
+            String SQL = "delete from Employee " +
+                    "Employee.ID == " + id;
+            ResultSet resultSet = statement.executeQuery(SQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private int getPositionId (String positionName) {
@@ -126,17 +152,7 @@ public class DatabaseHandler extends Config {
 
 
 
-    public void deleteEmployee(int id) {
-        Statement statement = null;
-        try {
-            statement = DbConnection().createStatement();
-            String SQL = "delete from Employee " +
-                    "Employee.ID == " + id;
-            ResultSet resultSet = statement.executeQuery(SQL);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     public ObservableList<String> getPositions(){
         ObservableList<String> positions = FXCollections.observableArrayList();
@@ -160,7 +176,7 @@ public class DatabaseHandler extends Config {
             String SQL = "SELECT " + Consts.DEPARTMENT_NAME + " FROM " + Consts.DEPARTMENT_TABLE;
             ResultSet resultSet = statement.executeQuery(SQL);
             while (resultSet.next()) {
-                departments.add(resultSet.getString("PositionName"));
+                departments.add(resultSet.getString("DepartmentName"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

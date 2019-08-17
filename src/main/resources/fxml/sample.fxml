@@ -26,7 +26,8 @@
             <TableColumn fx:id="fieldForNotesColumn" prefWidth="67.0" text="Поле для відміток" />
         </columns>
       </TableView>
-      <Button fx:id="addButton" layoutX="56.0" layoutY="350.0" mnemonicParsing="false" text="Додати працівника" />
+      <Button fx:id="addButton" layoutX="56.0" layoutY="350.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="192.0" text="Додати працівника" />
       <Label layoutX="825.0" layoutY="547.0" text="Label" />
+      <Button fx:id="editButton" layoutX="56.0" layoutY="406.0" mnemonicParsing="false" text="Редагувати дані працівника" />
    </children>
 </AnchorPane>
