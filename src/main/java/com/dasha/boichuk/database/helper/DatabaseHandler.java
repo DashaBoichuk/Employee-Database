@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.util.*;
 
 public class DatabaseHandler extends Config {
     private Connection connection;
@@ -76,16 +77,51 @@ public class DatabaseHandler extends Config {
 
     public ObservableList<Employee> addEmployeeToDB(Employee employee) {
         try {
+
             Statement statement = DbConnection().createStatement();
             String SQL = "insert into Employee " +
-                    "values ('" + employee.getFirstName() + "', '" + employee.getLastName() + "', '" + employee.getPatronymic() + "', '"+ employee.getDateOfBirth() + "', 1, 1, " + employee.getRoomNumber() + ", '" + employee.getOfficePhone() + "', '"+ employee.getBusinessEmail() + "', " + employee.getMonthlySalary() + ", '" + employee.getDateOfHiring() + "','" + employee.getFieldForNotes() + "');";
-            ResultSet resultSet = statement.executeQuery(SQL);
-
-
+                    "values ('" + employee.getFirstName() + "', '" + employee.getLastName() + "', '" + employee.getPatronymic() + "', '"+ employee.getDateOfBirth() + "', " + getPositionId(employee.getPosition()) + ", 1, " + employee.getRoomNumber() + ", '" + employee.getOfficePhone() + "', '"+ employee.getBusinessEmail() + "', " + employee.getMonthlySalary() + ", '" + employee.getDateOfHiring() + "','" + employee.getFieldForNotes() + "');";
+            statement.executeQuery(SQL);
         } catch (SQLException e) {
 
         }
         return getData();
+    }
+
+    private int getPositionId (String positionName) {
+
+        try {
+            Statement statement = DbConnection().createStatement();
+            String positionSQL = "select Position.ID " +
+                    "from Position " +
+                    "where Position.PositionName = '" + positionName + "'";
+            ResultSet rs = statement.executeQuery(positionSQL);
+            while (rs.next()){
+                return rs.getInt(Consts.POSITION_ID);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
+    private int getDepartmentId (String departmentName) {
+
+        try {
+            Statement statement = DbConnection().createStatement();
+            String departmentSQL = "select Department.ID " +
+                    "from Department " +
+                    "where Department.DepartmentName = '" + departmentName + "'";
+            ResultSet rs = statement.executeQuery(departmentSQL);
+            while (rs.next()){
+                return rs.getInt(Consts.POSITION_ID);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 1;
     }
 
 
@@ -100,5 +136,35 @@ public class DatabaseHandler extends Config {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public ObservableList<String> getPositions(){
+        ObservableList<String> positions = FXCollections.observableArrayList();
+        try {
+            Statement statement = DbConnection().createStatement();
+            String SQL = "SELECT " + Consts.POSITION_NAME + " FROM " + Consts.POSITION_TABLE;
+            ResultSet resultSet = statement.executeQuery(SQL);
+            while (resultSet.next()) {
+                positions.add(resultSet.getString("PositionName"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return positions;
+    }
+
+    public ObservableList<String> getDepartments(){
+        ObservableList<String> departments = FXCollections.observableArrayList();
+        try {
+            Statement statement = DbConnection().createStatement();
+            String SQL = "SELECT " + Consts.DEPARTMENT_NAME + " FROM " + Consts.DEPARTMENT_TABLE;
+            ResultSet resultSet = statement.executeQuery(SQL);
+            while (resultSet.next()) {
+                departments.add(resultSet.getString("PositionName"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return departments;
     }
 }

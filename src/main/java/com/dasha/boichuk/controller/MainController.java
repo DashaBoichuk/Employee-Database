@@ -110,8 +110,6 @@ public class MainController {
             @Override
             public void handle(MouseEvent mouseEvent) {
 
-
-
                 String fxmlFile = "/fxml/addEmp.fxml";
                 FXMLLoader loader = new FXMLLoader();
                 Parent root = null;
@@ -121,8 +119,6 @@ public class MainController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-
 
                 AddEmpController addEmpController = loader.getController();
                 addEmpController.setEmployeeSelectCallback(employee -> {
@@ -138,27 +134,6 @@ public class MainController {
                 primaryStage.resizableProperty().setValue(false);
                 primaryStage.setTitle("Додавання нового працівника");
                 primaryStage.showAndWait();
-
-
-
-              /*  Employee employee = new Employee();
-                employee.setFirstName(nameTF.getText());
-                employee.setLastName(surnameTF.getText());
-                employee.setPatronymic(patronymicTF.getText());
-                employee.setDateOfBirth(dateOfBirthTF.getText());
-                employee.setPosition(positionTF.getText());
-                employee.setDepartment(departmentTF.getText());
-                employee.setRoomNumber(Integer.parseInt(roomNumberTF.getText()));
-                employee.setOfficePhone(officePhoneTF.getText());
-                employee.setBusinessEmail(businessEmailTF.getText());
-                employee.setMonthlySalary(Integer.parseInt(monthlySalaryTF.getText()));
-                employee.setDateOfHiring(dateOfHiringTF.getText());
-                employee.setFieldForNotes(fieldForNotesTF.getText());
-
-                usersData = databaseHandler.addEmployeeToDB(employee);
-                tableEmployees.setItems(usersData);
-*/
-
             }
         });
 

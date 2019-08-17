@@ -10,10 +10,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -30,20 +29,15 @@ public class AddEmpController {
         this.employeeSelectCallback = callback ;
     }
 
-  /*  private final ReadOnlyObjectWrapper<Employee> newEmployee = new ReadOnlyObjectWrapper<Employee>();
-
-    public ReadOnlyObjectProperty<Employee> newEmployeeProperty() {
-        return newEmployee.getReadOnlyProperty() ;
-    }
-
-    public Employee getCurrentEmployee() {
-        return newEmployee.get();
-    }*/
-
     @FXML
     private void initialize() throws IOException {
 
 
+        DatabaseHandler databaseHandler = new DatabaseHandler();
+        ObservableList<String> positionsList = databaseHandler.getPositions();
+        //positionChoiseBox.show();
+        //positionChoiseBox = new ChoiceBox<String>(positionsList);
+        positionChoiseBox.setItems(positionsList);
 
 
 
@@ -56,7 +50,7 @@ public class AddEmpController {
                 employee.setLastName(surnameTF.getText());
                 employee.setPatronymic(patronymicTF.getText());
                 employee.setDateOfBirth(dateOfBirthTF.getText());
-                employee.setPosition(positionTF.getText());
+                employee.setPosition(positionChoiseBox.getValue());
                 employee.setDepartment(departmentTF.getText());
                 employee.setRoomNumber(Integer.parseInt(roomNumberTF.getText()));
                 employee.setOfficePhone(officePhoneTF.getText());
@@ -69,21 +63,14 @@ public class AddEmpController {
                     employeeSelectCallback.accept(employee);
                 }
 
-              /*  newEmployee.set(employee);*/
 
                 Stage stage = (Stage) addEmpButton.getScene().getWindow();
-                // do what you have to do
                 stage.close();
-
-        /*        MainController mainController = new MainController();
-                mainController.setUsersData(databaseHandler.addEmployeeToDB(employee));
-                mainController.setItemstoTable(mainController.getUsersData());*/
-
-             /*   usersData = databaseHandler.addEmployeeToDB(employee);
-                tableEmployees.setItems(usersData);*/
             }
         });
     }
+
+
 
 
     @FXML
@@ -94,13 +81,13 @@ public class AddEmpController {
     private TextField surnameTF;
 
     @FXML
+    private ChoiceBox<String> positionChoiseBox;
+
+    @FXML
     private TextField departmentTF;
 
     @FXML
     private TextField patronymicTF;
-
-    @FXML
-    private TextField positionTF;
 
     @FXML
     private TextField dateOfBirthTF;
