@@ -2,6 +2,8 @@ package com.dasha.boichuk.controller;
 
 import com.dasha.boichuk.database.handler.DatabaseHandler;
 import com.dasha.boichuk.model.Employee;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -52,13 +54,46 @@ public class MainController {
 
     @FXML
     private void initialize() {
+
+        //get data from db
         DatabaseHandler databaseHandler = new DatabaseHandler();
         usersData = databaseHandler.getData();
-     //   initData();
-        setDatatoTable();
 
+        //set filter choice boxes
+        ObservableList<String> positionsList = databaseHandler.getPositions();
+        positionFilter.setItems(positionsList);
+        String allPositions = "Всі посади";
+        positionFilter.getItems().add(allPositions);
+        positionFilter.setValue(allPositions);
+
+        ObservableList<String> departmentList = databaseHandler.getDepartments();
+        departmentFilter.setItems(departmentList);
+        String allDepartments = "Всі підрозділи";
+        departmentFilter.getItems().add(allDepartments);
+        departmentFilter.setValue(allDepartments);
+
+        //set data to table
+        setDatatoTable();
         setItemstoTable (usersData);
 
+        //listener for filters
+        positionFilter.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> observableValue, String oldString, String newString) -> {
+            if (newString.equals(allPositions))
+                usersData = databaseHandler.getData();
+            else
+                usersData = databaseHandler.getEmployeesFromSelectedPosition(newString);
+            tableEmployees.setItems(usersData);
+        });
+
+        departmentFilter.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> observableValue, String oldString, String newString) -> {
+            if (newString.equals(allDepartments))
+                usersData = databaseHandler.getData();
+            else
+                usersData = databaseHandler.getEmployeesFromSelectedDepartment(newString);
+            tableEmployees.setItems(usersData);
+        });
+
+        //add button
         addButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -89,6 +124,7 @@ public class MainController {
             }
         });
 
+        //edit button
         editButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -155,6 +191,13 @@ public class MainController {
 */
 
     }
+
+    @FXML
+    private ChoiceBox<String> departmentFilter;
+
+    @FXML
+    private ChoiceBox<String> positionFilter;
+
     @FXML
     private Button btn;
 
@@ -165,7 +208,7 @@ public class MainController {
     private Button editButton;
 
     @FXML
-    private Label label;
+    private Label testLable;
 
     @FXML
     private TableColumn<Employee, Integer> idColumn;

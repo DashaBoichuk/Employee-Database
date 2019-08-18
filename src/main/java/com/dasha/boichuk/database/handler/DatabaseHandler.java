@@ -10,8 +10,6 @@ public class DatabaseHandler extends Config {
     private Connection connection;
 
 
-
-
     private Connection DbConnection() {
 
         String connectionUrl = "jdbc:sqlserver://" + dbHost + ":" + dbPort + "; databaseName=" + dbName + "; integratedSecurity=true";
@@ -31,11 +29,15 @@ public class DatabaseHandler extends Config {
 
     }
 
-    private ObservableList<Employee> data;
+    public void closeConnection () {
+        try { connection.close(); } catch (Exception e) { }
+    }
+
+
 
     public ObservableList<Employee> getData() {
        // String resultString = null;
-        data = FXCollections.observableArrayList();
+        ObservableList<Employee> data = FXCollections.observableArrayList();
         try {
             Statement statement = DbConnection().createStatement();
            // String SQL = "SELECT * FROM " + Consts.EMPLOYEE_TABLE;
@@ -104,15 +106,92 @@ public class DatabaseHandler extends Config {
     }
 
     public void deleteEmployee(int id) {
-        Statement statement = null;
         try {
-            statement = DbConnection().createStatement();
+            Statement statement = DbConnection().createStatement();
             String SQL = "delete from Employee " +
                     "Employee.ID == " + id;
             ResultSet resultSet = statement.executeQuery(SQL);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public ObservableList<Employee> getEmployeesFromSelectedPosition (String position) {
+        ObservableList<Employee> data = FXCollections.observableArrayList();
+        try {
+            Statement statement = DbConnection().createStatement();
+            // String SQL = "SELECT * FROM " + Consts.EMPLOYEE_TABLE;
+            String SQL = "SELECT Employee.ID, Employee.FirstName, Employee.LastName, Employee.Patronymic,Employee.DateOfBirth, Position.PositionName, " +
+                    "Department.DepartmentName, Employee.RoomNumber, Employee.OfficePhone, Employee.BusinessEmail, Employee.MonthlySalary, Employee.DateOfHiring, " +
+                    "Employee.FieldForNotes " +
+                    "FROM Employee, Position, Department " +
+                    "WHERE Employee.PositionID = Position.ID AND Employee.DepartmentID = Department.ID AND Position.PositionName = '" + position + "'";
+
+            ResultSet resultSet = statement.executeQuery(SQL);
+
+            while (resultSet.next()) {
+                Employee em = new Employee();
+                //   resultString = resultSet.getString(Consts.FIRST_NAME) + " " + resultSet.getString(Consts.LAST_NAME);
+                em.setId(resultSet.getInt("ID"));
+                em.setFirstName(resultSet.getString("FirstName"));
+                em.setLastName(resultSet.getString("LastName"));
+                em.setPatronymic(resultSet.getString("Patronymic"));
+                em.setDateOfBirth(resultSet.getString("DateOfBirth"));
+                em.setPosition(resultSet.getString("PositionName"));
+                em.setDepartment(resultSet.getString("DepartmentName"));
+                em.setRoomNumber(resultSet.getInt("RoomNumber"));
+                em.setOfficePhone(resultSet.getString("OfficePhone"));
+                em.setBusinessEmail(resultSet.getString("BusinessEmail"));
+                em.setMonthlySalary(resultSet.getInt("MonthlySalary"));
+                em.setDateOfHiring(resultSet.getString("DateOfHiring"));
+                em.setFieldForNotes(resultSet.getString("FieldForNotes"));
+
+                data.add(em);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return data;
+    }
+
+    public ObservableList<Employee> getEmployeesFromSelectedDepartment (String department) {
+        ObservableList<Employee> data = FXCollections.observableArrayList();
+        try {
+            Statement statement = DbConnection().createStatement();
+            String SQL = "SELECT Employee.ID, Employee.FirstName, Employee.LastName, Employee.Patronymic,Employee.DateOfBirth, Position.PositionName, " +
+                    "Department.DepartmentName, Employee.RoomNumber, Employee.OfficePhone, Employee.BusinessEmail, Employee.MonthlySalary, Employee.DateOfHiring, " +
+                    "Employee.FieldForNotes " +
+                    "FROM Employee, Position, Department " +
+                    "WHERE Employee.PositionID = Position.ID AND Employee.DepartmentID = Department.ID AND Department.DepartmentName = '" + department + "'";
+
+            ResultSet resultSet = statement.executeQuery(SQL);
+
+            while (resultSet.next()) {
+                Employee em = new Employee();
+                em.setId(resultSet.getInt("ID"));
+                em.setFirstName(resultSet.getString("FirstName"));
+                em.setLastName(resultSet.getString("LastName"));
+                em.setPatronymic(resultSet.getString("Patronymic"));
+                em.setDateOfBirth(resultSet.getString("DateOfBirth"));
+                em.setPosition(resultSet.getString("PositionName"));
+                em.setDepartment(resultSet.getString("DepartmentName"));
+                em.setRoomNumber(resultSet.getInt("RoomNumber"));
+                em.setOfficePhone(resultSet.getString("OfficePhone"));
+                em.setBusinessEmail(resultSet.getString("BusinessEmail"));
+                em.setMonthlySalary(resultSet.getInt("MonthlySalary"));
+                em.setDateOfHiring(resultSet.getString("DateOfHiring"));
+                em.setFieldForNotes(resultSet.getString("FieldForNotes"));
+
+                data.add(em);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return data;
     }
 
     private int getPositionId (String positionName) {
