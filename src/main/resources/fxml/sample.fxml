@@ -7,10 +7,9 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="595.0" prefWidth="893.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dasha.boichuk.controller.MainController">
+<AnchorPane prefHeight="523.0" prefWidth="991.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dasha.boichuk.controller.MainController">
    <children>
-      <Button fx:id="btn" layoutX="890.0" layoutY="540.0" mnemonicParsing="false" onAction="#click" text="Click!" />
-      <TableView fx:id="tableEmployees" layoutX="7.0" prefHeight="293.0" prefWidth="977.0">
+      <TableView fx:id="tableEmployees" layoutX="14.0" layoutY="63.0" prefHeight="361.0" prefWidth="977.0">
         <columns>
           <TableColumn fx:id="idColumn" prefWidth="40.0" text="id" />
           <TableColumn fx:id="lastNameColumn" prefWidth="82.0" text="Прізвище" />
@@ -27,11 +26,13 @@
             <TableColumn fx:id="fieldForNotesColumn" prefWidth="67.0" text="Поле для відміток" />
         </columns>
       </TableView>
-      <Button fx:id="addButton" layoutX="29.0" layoutY="318.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="192.0" text="Додати працівника" />
-      <Label layoutX="825.0" layoutY="547.0" text="Label" />
-      <Button fx:id="editButton" layoutX="254.0" layoutY="318.0" mnemonicParsing="false" text="Редагувати дані працівника" />
-      <ChoiceBox fx:id="positionFilter" layoutX="29.0" layoutY="483.0" prefWidth="150.0" />
-      <Button fx:id="deleteButton" layoutX="467.0" layoutY="318.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="192.0" text="Видалити дані працівника" />
-      <ChoiceBox fx:id="departmentFilter" layoutX="29.0" layoutY="528.0" prefWidth="150.0" />
+      <Button fx:id="addButton" layoutX="186.0" layoutY="455.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="192.0" text="Додати працівника" />
+      <Button fx:id="editButton" layoutX="430.0" layoutY="455.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="192.0" text="Редагувати дані працівника" />
+      <ChoiceBox fx:id="positionFilter" layoutX="243.0" layoutY="23.0" prefWidth="150.0" />
+      <Button fx:id="deleteButton" layoutX="673.0" layoutY="455.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="192.0" text="Видалити дані працівника" />
+      <ChoiceBox fx:id="departmentFilter" layoutX="578.0" layoutY="23.0" prefWidth="150.0" />
+      <Label layoutX="34.0" layoutY="28.0" text="Фільтри:" />
+      <Label layoutX="172.0" layoutY="29.0" text="Посади:" />
+      <Label layoutX="482.0" layoutY="29.0" text="Підрозділи:" />
    </children>
 </AnchorPane>

@@ -126,6 +126,8 @@ public class MainController {
                 addEmpController.setEmployeeSelectCallback(employee -> {
                     usersData = databaseHandler.addEmployeeToDB(employee);
                     tableEmployees.setItems(usersData);
+                    departmentFilter.setValue(allDepartments);
+                    positionFilter.setValue(allPositions);
                 });
 
                 Scene scene = new Scene(root);
@@ -161,6 +163,8 @@ public class MainController {
                     editEmpController.setEmployeeSelectCallback(employee -> {
                         usersData = databaseHandler.updateEmployee(employee, tableEmployees.getSelectionModel().getSelectedItem().getId());
                         tableEmployees.setItems(usersData);
+                        departmentFilter.setValue(allDepartments);
+                        positionFilter.setValue(allPositions);
                     });
 
 
@@ -175,13 +179,23 @@ public class MainController {
             }
         });
 
+        //delete button
+        deleteButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 
+            @Override
+            public void handle(MouseEvent event) {
+                if (tableEmployees.getSelectionModel().getSelectedItem() != null) {
+                    usersData = databaseHandler.deleteEmployee(tableEmployees.getSelectionModel().getSelectedItem().getId());
+                    tableEmployees.setItems(usersData);
+                }
+            }
+        });
     }
 
     private void setDatatoTable () {
         idColumn.setCellValueFactory(new PropertyValueFactory<Employee, Integer>("id"));
-        lastNameColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("firstName"));
-        firstNameColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("lastName"));
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("lastName"));
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("firstName"));
         patronymicColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("Patronymic"));
         dateOfBirthColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("DateOfBirth"));
         positionColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("position"));
@@ -194,18 +208,6 @@ public class MainController {
         fieldForNotesColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("FieldForNotes"));
     }
 
-
-    @FXML
-    private void click(ActionEvent event)  {
-        btn.setText("You've clicked!");
-//DELETE
-       /* DatabaseHandler databaseHandler = new DatabaseHandler();
-        String string = databaseHandler.getData();
-        btn.setText(string);
-*/
-
-    }
-
     @FXML
     private ChoiceBox<String> departmentFilter;
 
@@ -213,7 +215,7 @@ public class MainController {
     private ChoiceBox<String> positionFilter;
 
     @FXML
-    private Button btn;
+    private Button deleteButton;
 
     @FXML
     private Button addButton;

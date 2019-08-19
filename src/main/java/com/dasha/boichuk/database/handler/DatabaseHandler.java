@@ -105,15 +105,16 @@ public class DatabaseHandler extends Config {
         return getData();
     }
 
-    public void deleteEmployee(int id) {
+    public ObservableList<Employee> deleteEmployee(int id) {
         try {
             Statement statement = DbConnection().createStatement();
             String SQL = "delete from Employee " +
-                    "Employee.ID == " + id;
-            ResultSet resultSet = statement.executeQuery(SQL);
+                    "WHERE Employee.ID = " + id;
+            statement.executeUpdate(SQL);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return getData();
     }
 
     public ObservableList<Employee> getEmployeesFromSelectedPosition (String position) {
@@ -293,10 +294,6 @@ public class DatabaseHandler extends Config {
         }
         return 1;
     }
-
-
-
-
 
     public ObservableList<String> getPositions(){
         ObservableList<String> positions = FXCollections.observableArrayList();
