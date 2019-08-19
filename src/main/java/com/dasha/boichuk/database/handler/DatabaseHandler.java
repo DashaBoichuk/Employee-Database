@@ -194,6 +194,70 @@ public class DatabaseHandler extends Config {
         return data;
     }
 
+    public ObservableList<Employee> getEmployeesFromSelectedDepartmentAndPosition (String department, String position) {
+        ObservableList<Employee> data = FXCollections.observableArrayList();
+        try {
+            Statement statement = DbConnection().createStatement();
+            String SQL = "SELECT Employee.ID, Employee.FirstName, Employee.LastName, Employee.Patronymic,Employee.DateOfBirth, Position.PositionName, " +
+                    "Department.DepartmentName, Employee.RoomNumber, Employee.OfficePhone, Employee.BusinessEmail, Employee.MonthlySalary, Employee.DateOfHiring, " +
+                    "Employee.FieldForNotes " +
+                    "FROM Employee, Position, Department " +
+                    "WHERE Employee.PositionID = Position.ID AND Employee.DepartmentID = Department.ID AND Department.DepartmentName = '" + department + "' AND Position.PositionName = '" + position + "'";
+
+            ResultSet resultSet = statement.executeQuery(SQL);
+
+            while (resultSet.next()) {
+                Employee em = new Employee();
+                em.setId(resultSet.getInt("ID"));
+                em.setFirstName(resultSet.getString("FirstName"));
+                em.setLastName(resultSet.getString("LastName"));
+                em.setPatronymic(resultSet.getString("Patronymic"));
+                em.setDateOfBirth(resultSet.getString("DateOfBirth"));
+                em.setPosition(resultSet.getString("PositionName"));
+                em.setDepartment(resultSet.getString("DepartmentName"));
+                em.setRoomNumber(resultSet.getInt("RoomNumber"));
+                em.setOfficePhone(resultSet.getString("OfficePhone"));
+                em.setBusinessEmail(resultSet.getString("BusinessEmail"));
+                em.setMonthlySalary(resultSet.getInt("MonthlySalary"));
+                em.setDateOfHiring(resultSet.getString("DateOfHiring"));
+                em.setFieldForNotes(resultSet.getString("FieldForNotes"));
+
+                data.add(em);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return data;
+    }
+
+    private Employee setDataFromRsToEmp (ResultSet resultSet) {
+        Employee em = new Employee();
+        try {
+            while (resultSet.next()) {
+                em.setId(resultSet.getInt("ID"));
+                em.setFirstName(resultSet.getString("FirstName"));
+                em.setLastName(resultSet.getString("LastName"));
+                em.setPatronymic(resultSet.getString("Patronymic"));
+                em.setDateOfBirth(resultSet.getString("DateOfBirth"));
+                em.setPosition(resultSet.getString("PositionName"));
+                em.setDepartment(resultSet.getString("DepartmentName"));
+                em.setRoomNumber(resultSet.getInt("RoomNumber"));
+                em.setOfficePhone(resultSet.getString("OfficePhone"));
+                em.setBusinessEmail(resultSet.getString("BusinessEmail"));
+                em.setMonthlySalary(resultSet.getInt("MonthlySalary"));
+                em.setDateOfHiring(resultSet.getString("DateOfHiring"));
+                em.setFieldForNotes(resultSet.getString("FieldForNotes"));
+
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return em;
+    }
+
     private int getPositionId (String positionName) {
 
         try {

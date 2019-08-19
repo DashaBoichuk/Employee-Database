@@ -78,18 +78,32 @@ public class MainController {
 
         //listener for filters
         positionFilter.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> observableValue, String oldString, String newString) -> {
-            if (newString.equals(allPositions))
-                usersData = databaseHandler.getData();
-            else
-                usersData = databaseHandler.getEmployeesFromSelectedPosition(newString);
+            if (departmentFilter.getValue().equals(allDepartments)) {
+                if (newString.equals(allPositions))
+                    usersData = databaseHandler.getData();
+                else
+                    usersData = databaseHandler.getEmployeesFromSelectedPosition(newString);
+
+            } else {
+                if (newString.equals(allPositions))  usersData = databaseHandler.getEmployeesFromSelectedDepartment(departmentFilter.getValue());
+                else
+                usersData = databaseHandler.getEmployeesFromSelectedDepartmentAndPosition(departmentFilter.getValue(), newString);
+            }
             tableEmployees.setItems(usersData);
+
         });
 
         departmentFilter.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> observableValue, String oldString, String newString) -> {
-            if (newString.equals(allDepartments))
-                usersData = databaseHandler.getData();
-            else
-                usersData = databaseHandler.getEmployeesFromSelectedDepartment(newString);
+            if (positionFilter.getValue().equals(allPositions)) {
+                if (newString.equals(allDepartments))
+                    usersData = databaseHandler.getData();
+                else
+                    usersData = databaseHandler.getEmployeesFromSelectedDepartment(newString);
+            } else {
+                if (newString.equals(allDepartments)) usersData = databaseHandler.getEmployeesFromSelectedPosition(positionFilter.getValue());
+                else
+                usersData = databaseHandler.getEmployeesFromSelectedDepartmentAndPosition(newString, positionFilter.getValue());
+            }
             tableEmployees.setItems(usersData);
         });
 
@@ -206,9 +220,6 @@ public class MainController {
 
     @FXML
     private Button editButton;
-
-    @FXML
-    private Label testLable;
 
     @FXML
     private TableColumn<Employee, Integer> idColumn;
