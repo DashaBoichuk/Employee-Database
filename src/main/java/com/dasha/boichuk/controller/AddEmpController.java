@@ -11,11 +11,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 
 public class AddEmpController {
-
-    TableView<Employee> tableEmployeesPrime;
-    public MainController mainController;
 
     private Consumer<Employee> employeeSelectCallback ;
 
@@ -25,6 +23,21 @@ public class AddEmpController {
 
     @FXML
     private void initialize() {
+
+        Pattern p = Pattern.compile("\\d+");
+        roomNumberTF.textProperty().addListener((observable, oldValue, newValue) -> {
+            if ((p.matcher(oldValue).matches()) || (oldValue.equals("")))
+                if (!p.matcher(newValue).matches())
+                    roomNumberTF.setText(oldValue);
+
+        });
+
+        monthlySalaryTF.textProperty().addListener((observable, oldValue, newValue) -> {
+            if ((p.matcher(oldValue).matches()) || (oldValue.equals("")))
+                if (!p.matcher(newValue).matches())
+                    monthlySalaryTF.setText(oldValue);
+        });
+
 
 
         DatabaseHandler databaseHandler = new DatabaseHandler();

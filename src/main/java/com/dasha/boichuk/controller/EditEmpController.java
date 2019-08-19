@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 
 public class EditEmpController {
 
@@ -23,6 +24,21 @@ public class EditEmpController {
 
     @FXML
     private void initialize() {
+
+        Pattern p = Pattern.compile("\\d+");
+        roomNumberTF.textProperty().addListener((observable, oldValue, newValue) -> {
+            if ((p.matcher(oldValue).matches()) || (oldValue.equals("")))
+                if (!p.matcher(newValue).matches())
+                    roomNumberTF.setText(oldValue);
+
+        });
+
+        monthlySalaryTF.textProperty().addListener((observable, oldValue, newValue) -> {
+            if ((p.matcher(oldValue).matches()) || (oldValue.equals("")))
+                if (!p.matcher(newValue).matches())
+                    monthlySalaryTF.setText(oldValue);
+        });
+
         DatabaseHandler databaseHandler = new DatabaseHandler();
 
         ObservableList<String> positionsList = databaseHandler.getPositions();
