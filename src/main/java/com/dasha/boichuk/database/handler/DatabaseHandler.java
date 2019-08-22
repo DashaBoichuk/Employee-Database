@@ -9,7 +9,6 @@ import java.sql.*;
 public class DatabaseHandler extends Config {
     private Connection connection;
 
-
     private Connection DbConnection() {
 
         String connectionUrl = "jdbc:sqlserver://" + dbHost + ":" + dbPort + "; databaseName=" + dbName + "; integratedSecurity=true";
@@ -32,8 +31,6 @@ public class DatabaseHandler extends Config {
     public void closeConnection () {
         try { connection.close(); } catch (Exception e) { }
     }
-
-
 
     public ObservableList<Employee> getData() {
        // String resultString = null;

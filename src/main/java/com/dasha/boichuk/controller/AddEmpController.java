@@ -61,10 +61,12 @@ public class AddEmpController {
                 employee.setDateOfBirth(dateOfBirthTF.getText());
                 employee.setPosition(positionChoiseBox.getValue());
                 employee.setDepartment(departmentChoiseBox.getValue());
-                employee.setRoomNumber(Integer.parseInt(roomNumberTF.getText()));
+                if (!roomNumberTF.getText().equals(""))
+                    employee.setRoomNumber(Integer.parseInt(roomNumberTF.getText()));
                 employee.setOfficePhone(officePhoneTF.getText());
                 employee.setBusinessEmail(businessEmailTF.getText());
-                employee.setMonthlySalary(Integer.parseInt(monthlySalaryTF.getText()));
+                if (!monthlySalaryTF.getText().equals(""))
+                    employee.setMonthlySalary(Integer.parseInt(monthlySalaryTF.getText()));
                 employee.setDateOfHiring(dateOfHiringTF.getText());
                 employee.setFieldForNotes(fieldForNotesTF.getText());
 
