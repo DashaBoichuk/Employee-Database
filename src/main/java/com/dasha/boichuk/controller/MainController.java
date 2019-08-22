@@ -1,5 +1,6 @@
 package com.dasha.boichuk.controller;
 
+import com.dasha.boichuk.apachepoi.CreateExcel;
 import com.dasha.boichuk.database.handler.DatabaseHandler;
 import com.dasha.boichuk.model.Employee;
 import javafx.beans.value.ChangeListener;
@@ -190,6 +191,20 @@ public class MainController {
                 }
             }
         });
+
+
+        //reportButton
+        reportButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+                    CreateExcel.saveIt(usersData);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void setDatatoTable () {
@@ -207,6 +222,10 @@ public class MainController {
         dateOfHiringColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("DateOfHiring"));
         fieldForNotesColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("FieldForNotes"));
     }
+
+
+    @FXML
+    private Button reportButton;
 
     @FXML
     private ChoiceBox<String> departmentFilter;
