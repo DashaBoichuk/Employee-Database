@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class MainController {
 
@@ -185,10 +186,15 @@ public class MainController {
 
             @Override
             public void handle(MouseEvent event) {
-                if (tableEmployees.getSelectionModel().getSelectedItem() != null) {
-                    usersData = databaseHandler.deleteEmployee(tableEmployees.getSelectionModel().getSelectedItem().getId());
-                    tableEmployees.setItems(usersData);
-                }
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Видалення запису");
+                alert.setHeaderText("Ви точно хочете видалити інформацію про працівника?");
+                Optional<ButtonType> option = alert.showAndWait();
+                if (option.get() == ButtonType.OK)
+                    if (tableEmployees.getSelectionModel().getSelectedItem() != null) {
+                         usersData = databaseHandler.deleteEmployee(tableEmployees.getSelectionModel().getSelectedItem().getId());
+                         tableEmployees.setItems(usersData);
+                    }
             }
         });
 

@@ -32,6 +32,8 @@ public class AddEmpController {
 
         });
 
+
+
         monthlySalaryTF.textProperty().addListener((observable, oldValue, newValue) -> {
             if ((p.matcher(oldValue).matches()) || (oldValue.equals("")))
                 if (!p.matcher(newValue).matches())
